@@ -4,15 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.SessionKey;
-import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionKey;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
 @Component
@@ -32,12 +28,20 @@ public class CustomizeSessionManager extends DefaultWebSessionManager {
                     "session could not be found.", sessionKey);
             return null;
         }
-        Session s = retrieveSessionFromDataSource(sessionId);
-        if (s == null) {
-            //session ID was provided, meaning one is expected to be found, but we couldn't find one:
-            String msg = "Could not find session with ID [" + sessionId + "]";
-            throw new UnknownSessionException(msg);
+
+        // 避免多次调用redis
+        ServletRequest request = null;
+        if (sessionKey instanceof WebSessionKey) {
+            request = ((WebSessionKey) sessionKey).getServletRequest();
+            Session session = (Session) request.getAttribute(sessionId.toString());
+            if (session != null){
+                return session;
+            }
         }
-        return s;
+        Session session = super.retrieveSession(sessionKey);
+        if (session != null) {
+            request.setAttribute(sessionId.toString(), session);
+        }
+        return session;
     }
 }

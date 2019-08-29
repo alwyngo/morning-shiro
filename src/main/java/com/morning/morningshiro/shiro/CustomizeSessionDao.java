@@ -37,12 +37,20 @@ public class CustomizeSessionDao extends AbstractSessionDAO {
 
     @Override
     public void update(Session session) throws UnknownSessionException {
-
+        try (Jedis jedis = JedisUtils.getJedis()){
+            Serializable sessionId = session.getId();
+            System.out.println("update session from:" + sessionId);
+            jedis.set(getKey(sessionId.toString()), SerializationUtils.serialize(session));
+        }
     }
 
     @Override
     public void delete(Session session) {
-
+        try (Jedis jedis = JedisUtils.getJedis()){
+            Serializable sessionId = session.getId();
+            System.out.println("delete session from:" + sessionId);
+            jedis.del(getKey(sessionId.toString()));
+        }
     }
 
     @Override

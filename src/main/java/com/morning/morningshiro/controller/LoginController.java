@@ -3,8 +3,9 @@ package com.morning.morningshiro.controller;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
-@RestController
+@Controller
 @RequestMapping("/login")
 public class LoginController {
 
@@ -20,9 +21,10 @@ public class LoginController {
     public String login(UsernamePasswordToken token) {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
-        return "";
+        return "redirect:/index";
     }
 
+    @ResponseBody
     @RequestMapping("/admin")
     public String admin(HttpServletRequest request, HttpServletResponse response) {
         Principal userPrincipal = request.getUserPrincipal();
@@ -44,7 +46,18 @@ public class LoginController {
         cookie.setSecure(false);
         cookie.setVersion(0);
         cookie.setHttpOnly(true);
-
+        response.addCookie(cookie);
         return "admin";
+    }
+
+    /**
+     * @desc 默认跳转hello页面
+     * @param
+     * @author lxu003
+     * @date   2019/8/29 14:24
+     */
+    @RequestMapping("hello")
+    public void hello() {
+        System.out.println("hello");
     }
 }

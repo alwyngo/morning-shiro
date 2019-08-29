@@ -1,7 +1,6 @@
 package com.morning.morningshiro.shiro;
 
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -35,6 +34,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager(realm());
         defaultWebSecurityManager.setSessionManager(sessionManager());
         defaultWebSecurityManager.setCacheManager(cacheManager());
+        defaultWebSecurityManager.setRealm(realm());
         return defaultWebSecurityManager;
     }
 
@@ -63,6 +63,7 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager() {
         customizeSessionManager.setSessionDAO(customizeSessionDao);
+        customizeSessionManager.setSessionIdUrlRewritingEnabled(false);
         return customizeSessionManager;
     }
 }
