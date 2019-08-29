@@ -1,4 +1,4 @@
-package com.morning.morningshiro.redis;
+package com.morning.morningshiro.config.redis;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

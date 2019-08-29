@@ -1,4 +1,4 @@
-package com.morning.morningshiro.shiro;
+package com.morning.morningshiro.config.shiro;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.Session;

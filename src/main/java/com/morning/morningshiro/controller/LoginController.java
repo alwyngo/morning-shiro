@@ -6,6 +6,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +14,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController {
 
     @RequestMapping("/doLogin")
-    public String login(UsernamePasswordToken token) {
-        Subject subject = SecurityUtils.getSubject();
-        subject.login(token);
-        return "redirect:/index";
+    public String login(UsernamePasswordToken token, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(token);
+            response.sendRedirect("/index");
+            return "success";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     @ResponseBody

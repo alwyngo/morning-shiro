@@ -1,4 +1,4 @@
-package com.morning.morningshiro.shiro;
+package com.morning.morningshiro.config.shiro;
 
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.Realm;

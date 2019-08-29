@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    username: test
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/vhr
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      maximum-pool-size: 10
+
+#取登录界面url
+shiro:
+  loginUrl: /login

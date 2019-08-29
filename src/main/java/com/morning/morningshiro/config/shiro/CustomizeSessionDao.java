@@ -1,6 +1,6 @@
-package com.morning.morningshiro.shiro;
+package com.morning.morningshiro.config.shiro;
 
-import com.morning.morningshiro.redis.JedisUtils;
+import com.morning.morningshiro.config.redis.JedisUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
