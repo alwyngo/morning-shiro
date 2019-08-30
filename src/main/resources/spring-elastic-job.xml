@@ -15,12 +15,13 @@
     <reg:zookeeper id="regCenter" server-lists="127.0.0.1:2181" namespace="dd-job" base-sleep-time-milliseconds="1000"
                    max-sleep-time-milliseconds="3000" max-retries="3"/>
 
-    <bean id="myElasticJob2" class="com.morning.morningshiro.jobs.MyElasticJob" />
+    <bean id="myElasticJob" class="com.morning.morningshiro.jobs.MyElasticJob"/>
 
     <!-- 配置作业-->
     <!--overwrite 修改后覆盖原有定时任务-->
-    <job:simple id="myElasticJob1" job-ref="myElasticJob2" overwrite="true" registry-center-ref="regCenter"
-                cron="0/10 * * * * ?" sharding-total-count="7" sharding-item-parameters="0=ide,1=tesst" >
+    <!--id 任务ID-->
+    <job:simple id="job1" job-ref="myElasticJob" overwrite="true" registry-center-ref="regCenter"
+                cron="0/30 * * * * ?" sharding-total-count="4" sharding-item-parameters="0=USER,1=TWO" description="test">
         <job:listener class="com.morning.morningshiro.jobs.JobListener"/>
     </job:simple>
 </beans>
