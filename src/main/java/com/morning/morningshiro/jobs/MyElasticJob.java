@@ -7,9 +7,10 @@ public class MyElasticJob implements SimpleJob {
 
     @Override
     public void execute(ShardingContext context) {
+        // 根据分片项执行任务
+        System.out.println(context.toString());
         switch (context.getShardingItem()) {
             case 0:
-                // do something by sharding item 0
                 break;
             case 1:
                 // do something by sharding item 1

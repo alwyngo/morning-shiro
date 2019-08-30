@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:reg="http://www.dangdang.com/schema/ddframe/reg"
+       xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.dangdang.com/schema/ddframe/reg
+                        http://www.dangdang.com/schema/ddframe/reg/reg.xsd
+                        http://www.dangdang.com/schema/ddframe/job
+                        http://www.dangdang.com/schema/ddframe/job/job.xsd
+                        ">
+    <!--配置作业注册中心 -->
+    <!--namespace为注册到zk的名称-->
+    <reg:zookeeper id="regCenter" server-lists="127.0.0.1:2181" namespace="dd-job" base-sleep-time-milliseconds="1000"
+                   max-sleep-time-milliseconds="3000" max-retries="3"/>
+
+    <bean id="myElasticJob2" class="com.morning.morningshiro.jobs.MyElasticJob" />
+
+    <!-- 配置作业-->
+    <!--overwrite 修改后覆盖原有定时任务-->
+    <job:simple id="myElasticJob1" job-ref="myElasticJob2" overwrite="true" registry-center-ref="regCenter"
+                cron="0/10 * * * * ?" sharding-total-count="7" sharding-item-parameters="0=ide,1=tesst" >
+        <job:listener class="com.morning.morningshiro.jobs.JobListener"/>
+    </job:simple>
+</beans>

@@ -13,3 +13,5 @@ spring:
 #取登录界面url
 shiro:
   loginUrl: /login
+server:
+  port: 8081
